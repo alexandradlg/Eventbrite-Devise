@@ -73,17 +73,6 @@ class EventsController < ApplicationController
 
     end
   
-    # def invite
-    #   @users = User.all
-    #   @event = Event.find(params[:event_id])
-    # end
-  
-    # def subscribe_friends
-    #   @event = Event.find(params[:event_id])
-    #   @event.attendees << User.find(params[:id])
-    #   redirect_to events_path
-    # end
-  
       private
     def event_params
       params.require(:event).permit(:description, :date, :place, :price)
