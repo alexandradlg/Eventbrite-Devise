@@ -1,0 +1,67 @@
+<% if user_signed_in? %>
+<div class="container">
+<table class="table">
+
+  <tr>
+    <h1>Profil de <%= @user.name %>, liste des évenements organisés :<h1> 
+    <th>Description</th>
+    <th>Date & Time</th>
+    <th>Place</th>
+    <th>Attendees</th>
+    <th>Status</th>
+  </tr>
+    
+  <% @user.created_events.each do |event| %>
+      <tr>
+        <td><%= event.description %></td>
+        <td><%= event.date%>
+        <td><%= event.place%></td>
+        <td><%= event.attendees.count %></td>
+        <%if event.date.today?%>
+          <td><span class="badge-success">Aujourd'hui</span>
+        <%elsif event.date.past?%>
+          <td><span class="badge-danger">Passé</span></td>
+        <%elsif event.date.future?%>
+          <td><span class="badge-info">À venir</span></td>
+        <% end %>
+  
+        <% if @user == event.creator %>
+          <td><%=link_to 'Editer', edit_event_path(event)%><td>
+          <td><%= link_to 'Supprimer', event, method: :delete %></td></br></br>
+        <%end%>
+    </tr>
+  <%end%>
+</table>
+</div></br>
+
+<div class="container">
+<table class="table">
+  <tr>
+    <h2>Et voici la liste des évenements auxquels <%= @user.name %> participe :</h2>
+    <th>Description</th>
+    <th>Date & Time</th>
+    <th>Place</th>
+    <th>Attendees</th>
+    <th>Status</th>
+  </tr> 
+    <% @user.attended_events.each do |event| %>
+      <tr>
+        <td><%= event.description %></td>
+        <td><%= event.date%></td>
+        <td><%= event.place%></td>
+        <td><%= event.attendees.count %></td>
+        <%if event.date.today?%>
+          <td ><span class="badge-success">Aujourd'hui</span></td>
+        <%elsif event.date.past?%>
+          <td><span class="badge-danger">Passé</span></td>
+        <%elsif event.date.future?%>
+          <td><span class="badge-info">À venir</span></td>
+        <% end %>
+      </tr>
+  <%end%>
+</table>   
+</div></br>
+
+<%else%>
+<p>Veuillez d'abord vous identifier</p>
+<%end%>

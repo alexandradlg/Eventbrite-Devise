@@ -1,0 +1,25 @@
+<% if user_signed_in? %>
+<div class="container">
+<table class="table">
+  <tr>
+    <h1>Voici la liste des utilisateurs<h1>
+    
+    <th>Name</th>
+    <th>Invite</th>
+  </tr>
+  
+  <% @users.each do |user| %>
+    <tr>
+        <td><%= user.name %></td>
+        <%if @event.attendees.include?(user)%>
+            <td><span class="badge-danger"> <%=user.name%> participe déja</span></td>
+        <%else%>
+            <td><%= button_to "Inviter à l'évenement", event_user_invited_path(@event.id, user.id), :class => 'btn btn-success' %></td>
+        <%end%>
+    </tr>
+  <% end %>
+</table>
+</div>
+<%else%>
+<p>Veuillez d'abord vous identifier</p>
+<%end%>

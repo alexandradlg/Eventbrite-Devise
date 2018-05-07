@@ -1,0 +1,37 @@
+<% if user_signed_in? %>
+<div class="container">
+<table class="table">
+  <tr>
+    <h1>Voici la liste des évenements<h1>
+    
+    <th>Description</th>
+    <th>Date & Time</th>
+    <th>Place</th>
+    <th>Attendees</th>
+    <th>Infos</th>
+    <th>Status</th>
+    <th>Price</th>
+  </tr>
+  
+  <% @events.each do |event| %>
+    <tr>
+      <td><%= event.description %></td>
+      <td><%= event.date%></td>
+      <td><%= event.place%></td>
+      <td><%= event.attendees.count %></td>
+      <td><%= link_to "Plus d'info", event_path(event.id) %></td>
+      <%if event.date.today?%>
+        <td><span class="badge-success">Aujourd'hui</span>
+      <%elsif event.date.past?%>
+      <td><span class="badge-danger">Passé</span></td>
+      <%elsif event.date.future?%>
+      <td><span class="badge-info">À venir</span></td>
+      <% end %>
+      <td><%= humanized_money_with_symbol(event.price) %></td>
+    </tr>
+  <% end %>
+</table>
+</div>
+<%else%>
+<p>Veuillez d'abord vous identifier</p>
+<%end%>

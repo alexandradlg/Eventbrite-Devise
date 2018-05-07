@@ -1,0 +1,26 @@
+<% if user_signed_in? %>
+<% provide(:title, 'Edit event') %>
+<h1>Edit event</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for @event do |f| %>
+      <%= f.label :description %>
+      <%= f.text_field :description, class: 'form-control' %>
+
+      <%= f.label :date %>
+      <%= f.datetime_field :date, class: 'form-control' %>
+
+      <%= f.label :place %>
+      <%= f.text_field :place, class: 'form-control' %>
+      
+      <%= f.label :price %>
+      <%= f.number_field :price, class: 'form-control', step: :any %>      
+
+      <%= f.submit "Update my event", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
+<%else%>
+<p>Veuillez d'abord vous identifier</p>
+<%end%>
