@@ -10,6 +10,8 @@
   <%if @event.date.future?%>
     <%if @event.attendees.include?(current_user)%>
     <%= button_to "Se désinscrire de l'évenement", event_unsubscribe_path(@event), :class => 'btn btn-danger' %>
+    <%elsif @event.creator == current_user%>
+    <span class="badge-info">Vous êtes le créateur, inscription inutile :)</span></td>
     <%else%>
       <%= form_tag event_subscribe_path(@event) do %>
         <article>

@@ -1,24 +1,55 @@
-# README
+# WEEK 6 DAY 1
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Projet du jour :
 
-Things you may want to cover:
+### Eventbrite-like v.2
 
-* Ruby version
+Et si tu refaisais ce projet avec Devise ?
 
-* System dependencies
+Ah le projet EventBrite. C'était un chouette projet, non ? Et bien si tu le refaisais, afin d'être au top de la forme ? Cependant nous allons te demander d'utiliser Devise cette fois-ci.
 
-* Configuration
 
-* Database creation
+App Heroku : <a href="https://shrouded-reef-19582.herokuapp.com/">ici</a>
 
-* Database initialization
 
-* How to run the test suite
+### Gem
 
-* Services (job queues, cache servers, search engines, etc.)
+Une fois le repo cloné, faire cette commande pour installer les Gem : 
+```
+bundle install
+```
 
-* Deployment instructions
+Selon ta version de Ruby, tu devras peut-être aller dans le gemfile pour supprimer ou commenter la ligne spécifiant la version de Ruby ou celle de Rails
 
-* ...
+### Lancement de l'app
+
+Il suffit d'aller dans le dossier de l'app et de lancer sur ton terminal `rails server` avant de te rendre sur ton localhost.
+
+Avant ça, tu devras peut-être faire un `rails db:migrate` sur ton terminal.
+
+Sinon, rendez-vous sur l'app Heroku :)
+
+## Pré-requis
+
+Projet libre de droit et d'accès à la lecture/écriture. 
+Pour pouvoir visualiser le projet, un simple navigateur suffit.
+
+
+```
+Firefox, Safari, Chrome, Internet Explorer 8, ...
+```
+
+## Construit avec
+
+* Visual Studio Code
+* GitHub
+* Heroku
+
+
+## Contributors
+
+* Alexandra : https://github.com/alexandradlg
+
+## Nos Slack
+
+* Alexandra : @Alex

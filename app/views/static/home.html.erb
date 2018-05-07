@@ -1,0 +1,42 @@
+<div class="container" style="margin-top:100px">
+  <div class="row">
+    <style>
+    .fakeimg {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+    }
+    </style>
+    <div>
+      <h2>Find & create events</h2>
+      <h5>Create or find events in few seconds</h5>
+      <div><img class="fakeimg" src="http://www.darklandmusic.com/wp-content/uploads/2017/12/Who-is-a-Good-Publicity-Event-Photographers.jpg" alt="event"></div>
+      <p>EventBrite like community</p>
+      <p>First, you need to sign up, then you can create all the events that you want. Also find any event create by other users. Powered up by stripe, easily set the right price for your event. Want to start ? Sign up first!</p>
+      <br>
+      <h2>Latest event</h2>
+      <%if Event.all.empty? %>
+        <p>No Event registered yet</p>
+      <%else%>
+        <h5> <%= Event.last.date.to_date.strftime("%a, %d %b %Y")%>, <%= Event.last.place%></h5>
+        <div><img class="fakeimg" src="http://www.hopechurchnwa.com/wp-content/uploads/2016/01/Upcoming-Events-Banner-120514-940x300.jpg" alt="event"></div>
+        <% if (Date.today - Event.last.created_at.to_date).to_i == 0 %>
+          <p>This event has been created today</p>
+        <%else%>
+          <p><%= (Date.today - Event.last.created_at.to_date).to_i %></p>
+        <%end%>
+        <p>Pitch : <%= Event.last.description%></p>
+        <div class="actions col-sm-10 offset-sm-1 text-center">
+        <p> See more ? Let's get started !</p>
+        <% if user_signed_in?%>
+          <a <%= link_to 'See more', events_path, class: "btn btn-info" %></a>
+        <%else%>
+          <a <%= link_to 'Sign up', new_user_registration_path, class: "btn btn-info" %></a>
+          <a <%= link_to 'Sign in', new_user_session_path, class: "btn btn-info" %></a>
+        <%end%>
+        </div></br>
+      <%end%>
+    </div>
+  </div>
+</div></br>
