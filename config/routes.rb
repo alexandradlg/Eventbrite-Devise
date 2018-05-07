@@ -13,4 +13,5 @@ Rails.application.routes.draw do
     post '/invite/:id', to: 'events#subscribe_friends', as: 'user_invited'
   end
 
+  resources :charges
 end

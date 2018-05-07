@@ -16,7 +16,7 @@
   <% @events.each do |event| %>
     <tr>
       <td><%= event.description %></td>
-      <td><%= event.date%></td>
+      <td><%= event.date.to_date.strftime("%a, %d %b %Y")%></td>
       <td><%= event.place%></td>
       <td><%= event.attendees.count %></td>
       <td><%= link_to "Plus d'info", event_path(event.id) %></td>

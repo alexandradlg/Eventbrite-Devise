@@ -11,7 +11,25 @@
     <%if @event.attendees.include?(current_user)%>
     <%= button_to "Se désinscrire de l'évenement", event_unsubscribe_path(@event), :class => 'btn btn-danger' %>
     <%else%>
-    <%= button_to "Participer à l'évenement", event_subscribe_path(@event), :class => 'btn btn-success' %>
+      <%= form_tag event_subscribe_path(@event) do %>
+        <article>
+          <% if flash[:error].present? %>
+            <div id="error_explanation">
+              <p><%= flash[:error] %></p>
+            </div>
+          <% end %>
+          <label class="amount">
+            <span>Amount: <%= humanized_money_with_symbol(@event.price) %></span>
+          </label>
+        </article>
+
+        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                data-description="<%= @event.place %> le <%= @event.date.to_date.strftime("%a, %d %b %Y") %>"
+                data-amount="<% @event.price_cents %>"
+                data-currency="EUR"
+                data-locale="auto"></script>
+      <% end %>
     <%end%>
   <%elsif @event.date.past?%>
     <span class="badge-danger">Evenement passé, participation impossible</span></td>
@@ -38,7 +56,7 @@
     
         <tr>
           <td><%= @event.description %></td>
-          <td><%= @event.date%></td>
+          <td><%= @event.date.to_date.strftime("%a, %d %b %Y")%></td>
           <td><%= @event.place%></td>
           <td><%= @event.attendees.count %></td>
           <td><%= humanized_money_with_symbol(@event.price) %></td>
