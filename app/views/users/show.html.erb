@@ -33,19 +33,19 @@
           <td><%= event.place%></td>
           <td><%= event.attendees.count %></td>
           <%if event.date.today?%>
-            <td><span class=" badge badge-success">Aujourd'hui</span>
+            <td><span class=" badge badge-success">Today</span>
           <%elsif event.date.past?%>
-            <td><span class="badge badge-danger">Passé</span></td>
+            <td><span class="badge badge-danger">Past</span></td>
           <%elsif event.date.future?%>
-            <td><span class="badge badge-info">À venir</span></td>
+            <td><span class="badge badge-info">Upcoming</span></td>
           <% end %>
 
           <% if current_user.id == event.creator.id %>
-            <td><%=link_to 'Editer', edit_event_path(event)%></td>
-            <td><%= link_to 'Supprimer', event, method: :delete %></td></br></br>
+            <td><%=link_to 'Edit', edit_event_path(event)%></td>
+            <td><%= link_to 'Delete', event, method: :delete %></td></br></br>
           <%else%>
-            <td>Edition impossible</td>
-            <td>Suppression impossible</td>
+            <td>No access</td>
+            <td>No access</td>
           <%end%>
         </tr>
       <%end%>
@@ -77,6 +77,6 @@
     </table>
   </div>
   <%else%>
-  <p>Veuillez d'abord vous identifier</p>
+<%flash[:error] = "Your must sign in or sign up first"%>
   <%end%>
 </div>

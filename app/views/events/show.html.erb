@@ -1,90 +1,79 @@
 <% if user_signed_in? %>
-<div class="container">
-    <h1>Voici les informations concernant l'évenement numéro <%= @event.id%></h1>
-    
-<div>
-<p>Organisateur : <%= User.find(@event.creator_id).name %></p>
-<p><%= link_to 'Voir son profil', user_path(User.find(@event.creator_id).id) %></p>
-</div>
-<div>
-  <%if @event.date.future?%>
-    <%if @event.attendees.include?(current_user)%>
-    <%= button_to "Se désinscrire de l'évenement", event_unsubscribe_path(@event), :class => 'btn btn-danger' %>
-    <%elsif @event.creator == current_user%>
-    <span class="badge-info">Vous êtes le créateur, inscription inutile :)</span></td>
-    <%else%>
-      <%= form_tag event_subscribe_path(@event) do %>
-        <article>
-          <% if flash[:error].present? %>
-            <div id="error_explanation">
-              <p><%= flash[:error] %></p>
-            </div>
-          <% end %>
-          <label class="amount">
-            <span>Amount: <%= humanized_money_with_symbol(@event.price) %></span>
-          </label>
-        </article>
-
-        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-                data-description="<%= @event.place %> le <%= @event.date.to_date.strftime("%a, %d %b %Y") %>"
-                data-amount="<% @event.price_cents %>"
-                data-currency="EUR"
-                data-locale="auto"></script>
-      <% end %>
-    <%end%>
-  <%elsif @event.date.past?%>
-    <span class="badge-danger">Evenement passé, participation impossible</span></td>
-  <%end%>
-</div></br>
-
-<% if current_user == @event.creator %>
-  <p><%=link_to 'Editer', edit_event_path(@event)%></p>
-<%end%>
-
-<% if current_user == @event.creator %>
-  <td><%= link_to 'Supprimer', @event, method: :delete %></td></br></br>
-<%end%>
-
-<div class="container">
-  <table class="table">
-      <tr>
-        <th>Description</th>
-        <th>Date & Time</th>
-        <th>Place</th>
-        <th>Attendees</th>
-        <th>Price</th>  
-      </tr>
-    
-        <tr>
-          <td><%= @event.description %></td>
-          <td><%= @event.date.to_date.strftime("%a, %d %b %Y")%></td>
-          <td><%= @event.place%></td>
-          <td><%= @event.attendees.count %></td>
-          <td><%= humanized_money_with_symbol(@event.price) %></td>
-        </tr>
-  </table>
-</div></br></br>
-
-<div class="container">
-    <table class="table">
-      <tr>
-      <h2>Et voici la liste des participants à cet évenement</h2>
-        <th>Name</th>
-        <th>Voir le profil</th>
-      </tr> 
-      <% @event.attendees.each do |attendee| %>
-        <tr>
-          <td><%= attendee.name%></td>
-          <td><%= link_to 'profil', user_path(attendee.id)%></td>
-        </tr>
+<div class="container" style="margin-top:30px">
+  <div class="row">
+    <div class="col-sm-4">
+      <h2>About the event</h2>
+      <h5>Creator</h5>
+      <p><%=User.find(@event.creator_id).name%></p>
+      <h5>See profile</h5>
+      <p><%= link_to 'Creator profile', user_path(User.find(@event.creator_id).id) %></p>
+      <h5>Price</h5>
+      <p><%= humanized_money_with_symbol(@event.price) %></p>
+      <h5># Attendees</h5>
+      <p><%= @event.attendees.count %></p>
+      <h5>Last modified</h5>
+      <% if current_user == @event.creator %> 
+        <p><%=link_to 'Editer', edit_event_path(@event)%></p>
+      <%else%><p><%= @event.updated_at.to_date.strftime("%a, %d %b %Y")%></p>
       <%end%>
-      
-    </table>   
+      <% if current_user == @event.creator %>
+        <h5>Delete Event</h5>
+        <p><%= link_to 'Delete', @event, method: :delete %></p>
+      <%end%>
+      <h5>Status</h5>
+      <%if @event.date.future?%>
+        <%if @event.attendees.include?(current_user)%>
+          <%= button_to "Unsubscribe the event", event_unsubscribe_path(@event), :class => 'btn btn-danger' %>
+        <%elsif @event.creator == current_user%>
+          <span class="badge badge-info"> Your the event creator, no need to subscribe:)</span></td>
+        <%else%>
+          <%= form_tag event_subscribe_path(@event) do %>
+            <article>
+              <% if flash[:error].present? %>
+                <div id="error_explanation">
+                  <p><%= flash[:error] %></p>
+                </div>
+              <% end %>
+            </article>
+            <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                    data-description="<%= @event.place %> le <%= @event.date.to_date.strftime("%a, %d %b %Y") %>"
+                    data-amount="<% @event.price_cents %>"
+                    data-currency="EUR"
+                    data-locale="auto"></script>
+            <% end %>
+          <%end%>
+      <%elsif @event.date.past?%>
+        <span class="badge badge-danger">You can't subscribe to a past event</span></td>
+      <%end%></br></br>
+
+      <hr class="d-sm-none">
+    </div>
+
+    <div class="col-sm-8">
+      <h2>Description</h2>
+      <h5><%= @event.date.to_date.strftime("%a, %d %b %Y")%>, <%= @event.place%></h5>
+      <p><%= @event.description %></p>
+      <br>
+      <table class="table">
+        <tr>
+        <h2>Attendees list</h2>
+          <th>Name</th>
+          <th>See profile</th>
+        </tr> 
+        <% @event.attendees.each do |attendee| %>
+          <tr>
+            <td><%= attendee.name%></td>
+            <td><%= link_to 'profil', user_path(attendee.id)%></td>
+          </tr>
+        <%end%>   
+      </table>   
+    </div>
+  </div>
 </div>
 
 <%else%>
-<p>Veuillez d'abord vous identifier</p>
+<%flash[:error] = "Your must sign in or sign up first"%>
 <%end%>
 
 

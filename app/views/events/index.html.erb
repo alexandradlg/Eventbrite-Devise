@@ -2,7 +2,7 @@
 <div class="container">
 <table class="table">
   <tr>
-    <h1>Voici la liste des évenements<h1>
+    <h1>Event Index<h1>
     
     <th>Description</th>
     <th>Date & Time</th>
@@ -19,13 +19,13 @@
       <td><%= event.date.to_date.strftime("%a, %d %b %Y")%></td>
       <td><%= event.place%></td>
       <td><%= event.attendees.count %></td>
-      <td><%= link_to "Plus d'info", event_path(event.id) %></td>
+      <td><%= link_to "More info", event_path(event.id) %></td>
       <%if event.date.today?%>
-        <td><span class="badge badge-success">Aujourd'hui</span>
+        <td><span class="badge badge-success">Today</span>
       <%elsif event.date.past?%>
-      <td><span class="badge badge-danger">Passé</span></td>
+      <td><span class="badge badge-danger">Past</span></td>
       <%elsif event.date.future?%>
-      <td><span class="badge badge-info">À venir</span></td>
+      <td><span class="badge badge-info">Upcoming</span></td>
       <% end %>
       <td><%= humanized_money_with_symbol(event.price) %></td>
     </tr>
@@ -33,5 +33,5 @@
 </table>
 </div>
 <%else%>
-<p>Veuillez d'abord vous identifier</p>
+<%flash[:error] = "Your must sign in or sign up first"%>
 <%end%>
