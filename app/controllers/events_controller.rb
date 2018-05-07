@@ -6,8 +6,13 @@ class EventsController < ApplicationController
     def create
       @event = Event.new(event_params)
       @event.creator_id = current_user.id
-      @event.save
-      redirect_to events_path
+      if @event.save
+        redirect_to event_path(@event)
+        flash[:success] = "Your event is created"
+      else flash[:danger] = "Your event is not create, please try again"
+        render 'new'
+      end
+
     end
   
     
@@ -53,6 +58,7 @@ class EventsController < ApplicationController
 
       @event.attendees << current_user
       redirect_to @event
+      flash[:success] = "You are now attending this event"
     
       rescue Stripe::CardError => e
         flash[:error] = e.message
@@ -63,6 +69,8 @@ class EventsController < ApplicationController
       @event = Event.find(params[:event_id])
       @event.attendees.delete(current_user)
       redirect_to user_path(current_user)
+      flash[:danger] = "You are no longer attending this event"
+
     end
   
     # def invite
