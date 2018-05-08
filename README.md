@@ -44,12 +44,13 @@ Firefox, Safari, Chrome, Internet Explorer 8, ...
 * Visual Studio Code
 * GitHub
 * Heroku
+* Bootstrap 4
 
 
 ## Contributors
 
 * Alexandra : https://github.com/alexandradlg
 
-## Nos Slack
+## Slack
 
 * Alexandra : @Alex
