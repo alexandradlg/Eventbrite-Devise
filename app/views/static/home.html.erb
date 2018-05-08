@@ -24,7 +24,7 @@
         <% if (Date.today - Event.last.created_at.to_date).to_i == 0 %>
           <p>This event has been created today</p>
         <%else%>
-          <p>This event has been created <%=(Date.today - Event.last.created_at.to_date).to_i %> ago.</p>
+          <p>This event has been created <%=(Date.today - Event.last.created_at.to_date).to_i %> day ago.</p>
         <%end%>
         <p>Pitch : <%= Event.last.description%></p>
         <div class="actions col-sm-10 offset-sm-1 text-center">
