@@ -18,7 +18,8 @@
       <tr>
         <h2>Organised events :<h2></br>
         <th>Description</th>
-        <th>Date & Time</th>
+        <th>Date</th>
+        <th>Time</th>
         <th>Place</th>
         <th>Attendees</th>
         <th>Status</th>
@@ -29,7 +30,8 @@
       <% @user.created_events.each do |event| %>
         <tr>
           <td><%= event.description %></td>
-          <td><%= event.date%>
+          <td><%= event.date.to_date.strftime("%a, %d %b %Y")%>
+          <td><%=event.date.strftime("%H:%M")%></td>
           <td><%= event.place%></td>
           <td><%= event.attendees.count %></td>
           <%if event.date.today?%>
@@ -54,7 +56,8 @@
       <tr>
         <h2>Attended events :</h2></br>
         <th>Description</th>
-        <th>Date & Time</th>
+        <th>Date</th>
+        <th>Time</th>
         <th>Place</th>
         <th>Attendees</th>
         <th>Status</th>
@@ -62,15 +65,16 @@
       <% @user.attended_events.each do |event| %>
         <tr>
           <td><%= event.description %></td>
-          <td><%= event.date%></td>
+          <td><%= event.date.to_date.strftime("%a, %d %b %Y") %></td>
+          <td><%=event.date.strftime("%H:%M")%></td>
           <td><%= event.place%></td>
           <td><%= event.attendees.count %></td>
           <%if event.date.today?%>
-            <td ><span class="badge-success">Aujourd'hui</span></td>
+            <td ><span class="badge badge-success">Today</span></td>
           <%elsif event.date.past?%>
-            <td><span class="badge-danger">Passé</span></td>
+            <td><span class="badge badge-danger">Past</span></td>
           <%elsif event.date.future?%>
-            <td><span class="badge badge-info">À venir</span></td>
+            <td><span class="badge badge-info">Upcoming</span></td>
           <% end %>
         </tr>
       <%end%>

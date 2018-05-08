@@ -5,7 +5,8 @@
     <h1>Event Index<h1>
     
     <th>Description</th>
-    <th>Date & Time</th>
+    <th>Date</th>
+    <th>Time</th>
     <th>Place</th>
     <th>Attendees</th>
     <th>Infos</th>
@@ -17,6 +18,7 @@
     <tr>
       <td><%= event.description %></td>
       <td><%= event.date.to_date.strftime("%a, %d %b %Y")%></td>
+      <td><%=event.date.strftime("%H:%M")%></td>
       <td><%= event.place%></td>
       <td><%= event.attendees.count %></td>
       <td><%= link_to "More info", event_path(event.id) %></td>

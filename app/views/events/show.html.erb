@@ -10,11 +10,11 @@
       <h5>Price</h5>
       <p><%= humanized_money_with_symbol(@event.price) %></p>
       <h5># Attendees</h5>
-      <p><%= @event.attendees.count %></p>
-      <h5>Last modified</h5>
+      <p class="badge badge-primary"><%= @event.attendees.count %></p>
+      <h5>Update</h5>
       <% if current_user == @event.creator %> 
         <p><%=link_to 'Editer', edit_event_path(@event)%></p>
-      <%else%><p><%= @event.updated_at.to_date.strftime("%a, %d %b %Y")%></p>
+      <%else%><p>Last modified <%= @event.updated_at.to_date.strftime("%a, %d %b %Y")%></p>
       <%end%>
       <% if current_user == @event.creator %>
         <h5>Delete Event</h5>
@@ -52,7 +52,7 @@
 
     <div class="col-sm-8">
       <h2>Description</h2>
-      <h5><%= @event.date.to_date.strftime("%a, %d %b %Y")%>, <%= @event.place%></h5>
+      <h5><%= @event.date.to_date.strftime("%a, %d %b %Y")%>, <%= @event.place%>, <%=@event.date.strftime("%H:%M")%>.</h5>
       <p><%= @event.description %></p>
       <br>
       <table class="table">
