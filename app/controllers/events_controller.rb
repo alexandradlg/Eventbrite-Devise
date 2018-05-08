@@ -30,8 +30,11 @@ class EventsController < ApplicationController
     
     def update
       @event = Event.find(params[:id])
-      @event.update(event_params)
-      redirect_to event_path(@event)
+      if @event.update(event_params)
+        redirect_to event_path(@event)
+      else redirect_to event_path(@event)
+        flash[:error] = "YOUR EVENT IS NOT UPDATED. Please try again and make sure to update all the field."
+      end
     end
   
     def destroy
